@@ -10,8 +10,13 @@ def secs2hours(secs):
     hh, mm = divmod(mm, 60)
     return "%d:%02d:%02d" % (hh, mm, ss)
 
+def check():
+    batt = psutil.sensors_battery()
+    if batt.power_plugged:
+        print('is_charge')
 
 def main():
+    #check()
     if not hasattr(psutil, "sensors_battery"):
         return sys.exit("platform not supported")
     batt = psutil.sensors_battery()
@@ -25,6 +30,7 @@ def main():
             % ("charging" if batt.percent < 100 else "fully charged")
         )
         print("plugged in: yes")
+        print(batt.power_plugged)
     else:
         print("left:       %s" % secs2hours(batt.secsleft))
         print("status:     %s" % "discharging")
